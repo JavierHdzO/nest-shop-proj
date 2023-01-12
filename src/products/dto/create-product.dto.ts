@@ -27,6 +27,7 @@ export class CreateProductDto {
   @MinLength(1)
   description?: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MinLength(1)
