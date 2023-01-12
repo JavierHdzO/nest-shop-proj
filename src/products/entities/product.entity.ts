@@ -33,7 +33,7 @@ export class Product {
         type: 'int',
         default: 0
     })
-    stcok: number;
+    stock: number;
 
     @Column({
         type: 'text',
