@@ -12,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
     TypeOrmModule.forFeature([Product, ProductImage])
   ],
   controllers: [ProductsController],
-  providers: [ProductsService]
+  providers: [ProductsService],
+  exports:[ProductsService, TypeOrmModule]
 })
 export class ProductsModule {}
