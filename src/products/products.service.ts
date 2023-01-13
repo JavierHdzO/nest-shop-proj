@@ -30,25 +30,43 @@ export class ProductsService {
 
   async findAll(queryParams: QueryInterface) {
     const { limit = 10, offset=0 } = queryParams;
-    const products =  await this.productRepository.find({ take:limit, skip:offset });
-    return products;
+    try {
+      const products =  await this.productRepository.find({ take:limit, skip:offset });
+      return products;
+    } catch (error) {
+      this.handlerException(error);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: string) {
+    try {
+      const product = await this.productRepository.findOne({
+        where:{id}
+      });
+      return product;
+    } catch (error) {
+      this.handlerException(error);
+    }
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
     return `This action updates a #${id} product`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: string) {
+    try {
+      const product =  await this.productRepository.delete(id);
+      if(product.affected === 0) throw new BadRequestException();
+      return product;
+    } catch (error) {
+      this.handlerException(error);
+    }
   }
 
   private handlerException(error){
-      if(error.code === "23505") throw new BadRequestException(`${error.detail}`);
-      
+      console.log(error);
+      if(error.code === "23505" || error.status === 400) throw new BadRequestException(`${error.detail || error.response.message}`);
+     
       this.logger.error(error);
       throw new InternalServerErrorException('Unexpected error, check server logs');
   }
