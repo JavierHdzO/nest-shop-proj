@@ -44,3 +44,20 @@ $ yarn run test:cov
 ```bash
   $ docker-compose up -d
 ```
+
+## Execute Seed
+This feature just work in development environment
+
+1. Set NODE_ENV environment variable to development mode.
+``` bash
+  NODE_ENV=dev
+```
+2. Go to below path using GET http request
+```
+  http://host:port/api/seed
+```
+  __Example__
+
+```bash
+  http://localhost:3000/api/seed
+```
