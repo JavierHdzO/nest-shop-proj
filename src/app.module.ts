@@ -7,6 +7,7 @@ import configuration from 'src/config/configuration';
 import { JoiValidationSchema } from './config/validation-schema';
 import { ProductsModule } from './products/products.module';
 import { Product } from './products/entities/product.entity';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { Product } from './products/entities/product.entity';
       autoLoadEntities: true,
       synchronize: true
     }),
-    ProductsModule
+    ProductsModule,
+    CommonModule
   ],
 })
 export class AppModule {}

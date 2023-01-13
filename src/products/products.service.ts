@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { QueryInterface } from './interfaces/query.interface';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class ProductsService {
@@ -28,7 +28,7 @@ export class ProductsService {
     }
   }
 
-  async findAll(queryParams: QueryInterface) {
+  async findAll(queryParams: PaginationDto) {
     const { limit = 10, offset=0 } = queryParams;
     try {
       const products =  await this.productRepository.find({ take:limit, skip:offset });
@@ -39,14 +39,15 @@ export class ProductsService {
   }
 
   async findOne(id: string) {
-    try {
+    
       const product = await this.productRepository.findOne({
         where:{id}
       });
+
+      if( !product ) throw new BadRequestException(`Product with id(${id}) not found`);
+
       return product;
-    } catch (error) {
-      this.handlerException(error);
-    }
+    
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
@@ -54,13 +55,10 @@ export class ProductsService {
   }
 
   async remove(id: string) {
-    try {
       const product =  await this.productRepository.delete(id);
-      if(product.affected === 0) throw new BadRequestException();
+      if(product.affected === 0) throw new BadRequestException(`Product with id(${id}) not found`);
       return product;
-    } catch (error) {
-      this.handlerException(error);
-    }
+    
   }
 
   private handlerException(error){

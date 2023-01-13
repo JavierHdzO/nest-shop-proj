@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseUUIDPipe
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { QueryInterface } from './interfaces/query.interface';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -14,7 +14,7 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(@Query() queryParams: QueryInterface) {
+  findAll(@Query() queryParams: PaginationDto) {
     return this.productsService.findAll(queryParams);
   }
 
