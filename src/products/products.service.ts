@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { QueryInterface } from './interfaces/query.interface';
 
 @Injectable()
 export class ProductsService {
@@ -27,8 +28,10 @@ export class ProductsService {
     }
   }
 
-  async findAll() {
-    return `This action returns all products`;
+  async findAll(queryParams: QueryInterface) {
+    const { limit = 10, offset=0 } = queryParams;
+    const products =  await this.productRepository.find({ take:limit, skip:offset });
+    return products;
   }
 
   findOne(id: number) {
