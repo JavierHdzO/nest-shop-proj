@@ -7,6 +7,7 @@ import configuration from 'src/config/configuration';
 import { JoiValidationSchema } from './config/validation-schema';
 import { ProductsModule } from './products/products.module';
 import { Product } from './products/entities/product.entity';
+import { ProductImage } from './products/entities/product-image.entity';
 import { CommonModule } from './common/common.module';
 
 @Module({
@@ -25,7 +26,7 @@ import { CommonModule } from './common/common.module';
       username: process.env.USERNAME_DB,
       password: process.env.PASSWORD_DB,
       database:process.env.DATABASE_NAME,
-      entities: [Product],
+      entities: [Product, ProductImage],
       autoLoadEntities: true,
       synchronize: true
     }),
