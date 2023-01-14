@@ -1,5 +1,6 @@
 import { Injectable, Logger, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Express } from 'express';
 import { ProductsService } from 'src/products/products.service';
 import { initialData } from '../seed/data/seed-data';
 
