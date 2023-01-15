@@ -743,7 +743,7 @@
 
 "@nestjs/serve-static@^3.0.0":
   version "3.0.0"
-  resolved "https://registry.npmjs.org/@nestjs/serve-static/-/serve-static-3.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/@nestjs/serve-static/-/serve-static-3.0.0.tgz#085e7ebbb3c6d6e35b227ea57c8e988c87847309"
   integrity sha512-TpXjgs4136dQqWUjEcONqppqXDsrJhRkmKWzuBMOUAnP4HjHpNmlycvkHnDnWSoG2YD4a7Enh4ViYGWqCfHStA==
   dependencies:
     path-to-regexp "0.2.5"

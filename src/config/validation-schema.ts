@@ -7,5 +7,6 @@ export const JoiValidationSchema = joi.object({
     PORT_DB:joi.string(),
     USERNAME_DB:joi.string(),
     PASSWORD_DB:joi.string(),
-    DATABASE_NAME:joi.string()
+    DATABASE_NAME:joi.string(),
+    HOST_API:joi.string()
 });

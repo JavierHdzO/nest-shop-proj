@@ -3,6 +3,9 @@
 /node_modules
 /postgres
 .env
+*.jpg
+*.png
+*.jpeg
 
 # Logs
 logs

@@ -1,18 +1,22 @@
-import { Controller, Post, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, BadRequestException, ParseFilePipeBuilder, HttpStatus, FileValidator } from '@nestjs/common';
+import { Response } from 'express';
+import { Controller, Post, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, BadRequestException, ParseFilePipeBuilder, HttpStatus, FileValidator, Get, Param, Res, InternalServerErrorException } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer';
 import { FilesService } from './files.service';
 import { fileFilter, fileRename } from './helpers';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Controller('files')
 export class FilesController {
-  constructor(private readonly filesService: FilesService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly filesService: FilesService) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', {
     // fileFilter: fileFilter,
     storage: diskStorage({
-      destination: './static/uploads',
+      destination: './static/products',
       filename: fileRename
     })
     
@@ -28,8 +32,21 @@ export class FilesController {
           ) file: Express.Multer.File){
 
     // if(!file) throw new BadRequestException('File not found');
-            return file;
+
+            const host = this.configService.getOrThrow<string>('HOST_API');
+
+            const secureUrl = `${host}/files/product/${file.filename}`;
+            return { secureUrl };
   }
 
-  
+  @Get('product/:imageName')
+  findOne(
+    @Res() res: Response,
+    @Param('imageName') fileName: string 
+    ){
+
+    const path =  this.filesService.findOneFile(fileName);
+      
+    res.sendFile( path );
+  }
 }
