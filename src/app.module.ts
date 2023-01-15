@@ -11,6 +11,8 @@ import { ProductImage } from './products/entities/product-image.entity';
 import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
 import { FilesModule } from './files/files.module';
+import { AuthModule } from './auth/auth.module';
+import { User } from './auth/entities/users.entity';
 
 @Module({
   imports: [
@@ -28,14 +30,15 @@ import { FilesModule } from './files/files.module';
       username: process.env.USERNAME_DB,
       password: process.env.PASSWORD_DB,
       database:process.env.DATABASE_NAME,
-      entities: [Product, ProductImage],
+      entities: [Product, ProductImage, User],
       autoLoadEntities: true,
       synchronize: true
     }),
     ProductsModule,
     CommonModule,
     SeedModule,
-    FilesModule
+    FilesModule,
+    AuthModule
   ],
 })
 export class AppModule {}
