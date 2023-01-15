@@ -1,26 +1,38 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { Repository } from 'typeorm';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/users.entity';
+import { CreateUserDto } from './dto/create-user.dto';
+
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+
+  private readonly logger = new Logger( AuthService.name );
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>
+  ){}
+
+  async create( createUserDto: CreateUserDto ){
+
+    
+    try {
+      const user = this.userRepository.create( createUserDto );
+      await this.userRepository.save(user);
+      return  user;
+      
+    } catch (error) {
+      this.handlerException( error );
+    }
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  handlerException(error: any): never {
+
+    if(error.code === "23505") throw new BadRequestException( error.detail );
+    this.logger.error(error);
+
+    throw new InternalServerErrorException();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
-  }
 }
