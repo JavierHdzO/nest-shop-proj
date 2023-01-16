@@ -28,7 +28,7 @@ export class AuthService {
       await this.userRepository.save(user);
       return {
         ...user,
-        access_token: this.generateJwt( { email: user.email } )
+        access_token: this.generateJwt( { id: user.id } )
       };
 
     } catch (error) {
@@ -43,7 +43,7 @@ export class AuthService {
 
     const user = await this.userRepository.findOne({
       where: {email},
-      select: {email: true, password: true}
+      select: {email: true, password: true, id: true}
     });
 
     const correctPassword = user === null?
@@ -55,7 +55,7 @@ export class AuthService {
 
       return {
         ...user,
-        access_token: this.generateJwt( { email: user.email } )
+        access_token: this.generateJwt( { id: user.id } )
       };
   }
 
