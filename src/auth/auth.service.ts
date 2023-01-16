@@ -26,10 +26,9 @@ export class AuthService {
     try {
       const user = this.userRepository.create( createUserDto );
       await this.userRepository.save(user);
-      const access_token = this.generateJwt( { email: user.email } );
       return {
         ...user,
-        ...access_token
+        access_token: this.generateJwt( { email: user.email } )
       };
 
     } catch (error) {
@@ -54,11 +53,10 @@ export class AuthService {
     if( !correctPassword )
       throw new UnauthorizedException('email or password incorrect');
 
-    const access_token = this.generateJwt( { email: user.email } );
-    return {
-      ...user,
-      access_token
-    };
+      return {
+        ...user,
+        access_token: this.generateJwt( { email: user.email } )
+      };
   }
 
   private generateJwt( payload: JwtPayload ){
