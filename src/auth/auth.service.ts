@@ -61,9 +61,8 @@ export class AuthService {
 
   private generateJwt( payload: JwtPayload ){
 
-    return {
-      'access_token': this.jwtService.sign( payload )
-    };
+    const acces_token = this.jwtService.sign( payload );
+    return acces_token;
 
   }
 
