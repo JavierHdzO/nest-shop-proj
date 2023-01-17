@@ -31,6 +31,15 @@ export class AuthController {
     return this.authService.login( loginUserDto );
   }
 
+  @Get('refresh-access')
+  @Auth()
+  checkToken(
+    @GetUser() user: User
+  ){
+    return this.authService.checkToken( user.id );
+
+  }
+
   @Get('private')
   @UseGuards( AuthGuard() )
   privateRoute(

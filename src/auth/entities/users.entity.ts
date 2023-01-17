@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Product } from 'src/products/entities/product.entity';
 
 @Entity()
 export class User {
@@ -39,6 +40,13 @@ export class User {
         default: ['user']
     })
     roles: string[]
+
+    @OneToMany( 
+        () => Product,
+        product => product.user,
+    )
+    product: Product
+
 
     @BeforeInsert()
     @BeforeUpdate()

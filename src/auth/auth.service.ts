@@ -59,6 +59,19 @@ export class AuthService {
       };
   }
 
+  async checkToken( id: string ){
+    const user = await this.userRepository.findOne({
+      where: {id},
+      select: {email: true, password: false, id: true, fullName: true}
+    });
+
+
+    return {
+      ...user,
+      access_token: this.generateJwt({ id })
+    }
+  }
+
   private generateJwt( payload: JwtPayload ){
 
     const acces_token = this.jwtService.sign( payload );
