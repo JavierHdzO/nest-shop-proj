@@ -13,6 +13,7 @@ import { SeedModule } from './seed/seed.module';
 import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/entities/users.entity';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -38,7 +39,9 @@ import { User } from './auth/entities/users.entity';
     CommonModule,
     SeedModule,
     FilesModule,
-    AuthModule
+    AuthModule,
+    MessageModule
   ],
+  providers: [],
 })
 export class AppModule {}
