@@ -1,11 +1,13 @@
 import { Response } from 'express';
+import { diskStorage } from 'multer';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Controller, Post, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, BadRequestException, ParseFilePipeBuilder, HttpStatus, FileValidator, Get, Param, Res, InternalServerErrorException } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express'
-import { diskStorage } from 'multer';
+import { ApiTags } from '@nestjs/swagger';
 import { FilesService } from './files.service';
 import { fileFilter, fileRename } from './helpers';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 
+@ApiTags('Files')
 @Controller('files')
 export class FilesController {
   constructor(
