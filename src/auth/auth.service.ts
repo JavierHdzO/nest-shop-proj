@@ -43,7 +43,7 @@ export class AuthService {
 
     const user = await this.userRepository.findOne({
       where: {email},
-      select: {email: true, password: true, id: true}
+      select: {email: true, password: true, fullName: true, id: true}
     });
 
     const correctPassword = user === null?
@@ -53,6 +53,7 @@ export class AuthService {
     if( !correctPassword )
       throw new UnauthorizedException('email or password incorrect');
 
+      delete user.password;
       return {
         ...user,
         access_token: this.generateJwt( { id: user.id } )
